@@ -1,37 +1,17 @@
 import React from 'react'
+import ProjectSummary from './ProjectSummary'
 
-const ProjectList = () => {
+const ProjectList = ({projects}) => {
   return (
     <div className="project-list section">
+      {/* if we have projects then map through the projects */}
+      { projects && projects.map(project => {
+        return (
+          <ProjectSummary project={project} key ={project.id} />
+        )
+      })}
 
-      <div className="card z-depth-0 project-summary">
-        <div className="card-content grey-text-text-darken-3">
-          <span className="card-title">Project Title</span>
-          <p>Poster by Daniel</p>
-          <p className="grey-text">3rd Sept, 8am</p>
-        </div>
-      </div>
-      <div className="card z-depth-0 project-summary">
-        <div className="card-content grey-text-text-darken-3">
-          <span className="card-title">Project Title</span>
-          <p>Poster by Daniel</p>
-          <p className="grey-text">3rd Sept, 8am</p>
-        </div>
-      </div>
-      <div className="card z-depth-0 project-summary">
-        <div className="card-content grey-text-text-darken-3">
-          <span className="card-title">Project Title</span>
-          <p>Poster by Daniel</p>
-          <p className="grey-text">3rd Sept, 8am</p>
-        </div>
-      </div>
-      <div className="card z-depth-0 project-summary">
-        <div className="card-content grey-text-text-darken-3">
-          <span className="card-title">Project Title</span>
-          <p>Poster by Daniel</p>
-          <p className="grey-text">3rd Sept, 8am</p>
-        </div>
-      </div>
+      
 
     </div>
   )
