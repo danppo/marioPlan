@@ -1,25 +1,50 @@
 import React from 'react'
+import { connect} from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
 const ProjectDetails = (props)  => {
-  const id = props.match.params.id
-  return (
-    <div className="container section project-details">
-      <div className="card z-depth-0">
-        <div className="car-content">
-          <span className="card-title">
-            Card title - {id}
-          </span>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime accusantium praesentium officia accusamus, vel autem natus quibusdam laudantium fugit? Sunt assumenda a culpa est sapiente magni molestias eaque commodi veritatis!</p>
-        </div>
-        <div className="card-action grey lighten-4 grey-text">
-          <div>poster by dan</div>
-          <div> date</div>
+  const { project } = props;
+  if (project) {
+    return (
+      <div className="container section project-details">
+        <div className="card z-depth-0">
+          <div className="card-content">
+            <span className="card-title">
+              { project.title}
+            </span>
+            <p>{ project.content}</p>
+          </div>
+          <div className="card-action grey lighten-4 grey-text">
+            <div>poster by { project.authorFirstName} { project.authorLastName}</div>
+            <div> date</div>
+          </div>
         </div>
       </div>
-    </div>
-    
+    )
+  } else {
+    return (
+      <div className="container center">
+        <p>Loading Project...</p>
+      </div>
+    )
+  }
 
-  )
 }
 
-export default ProjectDetails
+const mapStateToProps = (state, ownProps) => {
+  //  console.log(state)
+  const id = ownProps.match.params.id;
+  const projects = state.firestore.data.projects;
+  const project  = projects ? projects[id] : null
+  return {
+    project: project
+  }
+}
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([
+    {collection: 'projects'}
+  ])
+)(ProjectDetails)
